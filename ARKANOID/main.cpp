@@ -71,7 +71,6 @@ public:
 class Game
 {
 public:
-	// Variables
 	int windoWidth = 800;
 	int windowHeight = 800;
 	bool paused = false;
@@ -93,20 +92,16 @@ public:
 	Ball ball;
 	std::vector<Block> blocks;
 
-	// Constructor
 	Game()
 	{
-		// Initialize window
 		window.create(sf::VideoMode(windoWidth, windowHeight), L"ARKANOID - Gra zaliczeniowa");
 		sf::Image icon;
 		icon.loadFromFile("icon.png");
 		window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 		window.setFramerateLimit(60);
 
-		// Initialize font
 		font.loadFromFile("fonts/Bangers-Regular.ttf");
 
-		// Initialize Text
 		pauseText.setFont(font);
 		pauseText.setCharacterSize(30);
 		pauseText.setFillColor(sf::Color::White);
@@ -136,7 +131,6 @@ public:
 		gameStartText.setPosition(sf::Vector2f(215, 250));
 		gameStartText.setString(L"						ARKANOID\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê");
 
-		// Initialize blocks
 		for (int i = 0; i < 12; i++)
 		{
 			for (int j = 0; j < 5; j++)
@@ -147,7 +141,6 @@ public:
 		}
 	}
 
-	// Functions
 	void input()
 	{
 		sf::Event event;
@@ -192,31 +185,25 @@ public:
 
 	void update()
 	{
-		// Update ball
 		if (!paused && gameStarted)
 		{
 			ball.update();
 
-			// Check collision with paddle
 			if (ball.sprite.getGlobalBounds().intersects(paddle.sprite.getGlobalBounds()))
 			{
-				// Calculate new velocity
 				float diff = ball.sprite.getPosition().x - paddle.sprite.getPosition().x;
 				ball.velocity.x = (diff / (paddle.texture.getSize().x / 2)) * ball.SPEED;
 				ball.velocity.y = -ball.SPEED;
 			}
 
-			// Check collision with blocks
 			for (auto& block : blocks)
 			{
 				if (!block.destroyed && ball.sprite.getGlobalBounds().intersects(block.sprite.getGlobalBounds()))
 				{
-					// Destroy block
 					block.destroyed = true;
 					remainingBlocks--;
 					score++;
 
-					// Calculate new velocity
 					if (ball.velocity.x > 0)
 						ball.velocity.x = ball.SPEED;
 					else
@@ -226,14 +213,12 @@ public:
 				}
 			}
 
-			// Check collision with walls
 			if (ball.sprite.getPosition().x <= 0 || ball.sprite.getPosition().x >= window.getSize().x)
 				ball.velocity.x = -ball.velocity.x;
 
 			if (ball.sprite.getPosition().y <= 0)
 				ball.velocity.y = -ball.velocity.y;
 
-			// Check if game is over
 			if (ball.sprite.getPosition().y >= window.getSize().y)
 				gameOver = true;
 		}
