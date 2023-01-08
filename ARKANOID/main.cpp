@@ -111,14 +111,14 @@ public:
 		helpText.setFont(font);
 		helpText.setCharacterSize(30);
 		helpText.setFillColor(sf::Color::White);
-		helpText.setPosition(sf::Vector2f(200, 250));
-		helpText.setString(L"ARCANOID - GRA ZALICZENIOWA\n				MENU POMOCY\n				Pauza - Esc\n				Opuœæ grê - X");
+		helpText.setPosition(sf::Vector2f(250, 250));
+		helpText.setString(L"ARKANOID - GRA ZALICZENIOWA\n\n			  MENU POMOCY\n\n			  Pauza - Esc\n\n		    Opuœæ grê - X");
 
 		gameOverText.setFont(font);
 		gameOverText.setCharacterSize(30);
 		gameOverText.setFillColor(sf::Color::White);
 		gameOverText.setPosition(sf::Vector2f(200, 250));
-		gameOverText.setString(L"						KONIEC GRY\n\n	Naciœnij N aby rozpocz¹æ now¹ grê\n\n			Naciœnij X aby opuœciæ grê");
+		gameOverText.setString(L"						  KONIEC GRY\n\n	Naciœnij N aby rozpocz¹æ now¹ grê\n\n			Naciœnij X aby opuœciæ grê");
 
 		scoreText.setFont(font);
 		scoreText.setCharacterSize(30);
@@ -129,7 +129,7 @@ public:
 		gameStartText.setCharacterSize(30);
 		gameStartText.setFillColor(sf::Color::White);
 		gameStartText.setPosition(sf::Vector2f(215, 250));
-		gameStartText.setString(L"						ARKANOID\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê");
+		gameStartText.setString(L"						ARKANOID\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê\n\n				F1 - Menu pomocy");
 
 		for (int i = 0; i < 12; i++)
 		{
@@ -158,15 +158,10 @@ public:
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			{
-				if (gameStarted)
-				{
-					if (paused)
-						paused = false;
-					else
-						paused = true;
-				}
+				if (paused)
+					paused = false;
 				else
-					gameStarted = true;
+					paused = true;
 			}
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F1)
