@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <fstream>
+#include <ctime>
 
 class Paddle
 {
@@ -14,7 +16,7 @@ public:
 		sprite.setTexture(texture);
 		sprite.setPosition(sf::Vector2f(800, 1400));
 		sprite.setOrigin(sf::Vector2f(texture.getSize().x / 2, texture.getSize().y / 2));
-		sprite.setScale(sf::Vector2f(0.7, 0.7));
+		sprite.setScale(sf::Vector2f(1.0, 1.0));
 	}
 
 	void moveLeft()
@@ -64,7 +66,7 @@ public:
 		texture.loadFromFile("block.png");
 		sprite.setTexture(texture);
 		sprite.setPosition(sf::Vector2f(x, y));
-		sprite.setScale(sf::Vector2f(0.4, 0.4));
+		sprite.setScale(sf::Vector2f(0.5, 0.5));
 	}
 };
 
@@ -107,16 +109,16 @@ public:
 		pauseText.setFillColor(sf::Color::White);
 		pauseText.setOutlineColor(sf::Color::Black);
 		pauseText.setOutlineThickness(10);
-		pauseText.setPosition(sf::Vector2f(500, 500));
-		pauseText.setString(L"Gra wstrzymana\nNaciœnij Esc aby wznowiæ rozgrywkê");
+		pauseText.setPosition(sf::Vector2f(400, 500));
+		pauseText.setString(L"					Gra wstrzymana\nNaciœnij Esc aby wznowiæ rozgrywkê");
 
 		helpText.setFont(font);
 		helpText.setCharacterSize(60);
 		helpText.setFillColor(sf::Color::White);
 		helpText.setOutlineColor(sf::Color::Black);
 		helpText.setOutlineThickness(10);
-		helpText.setPosition(sf::Vector2f(500, 500));
-		helpText.setString(L"ARKANOID - GRA ZALICZENIOWA\n\n			  MENU POMOCY\n\n			  Pauza - Esc\n\n		    Opuœæ grê - X");
+		helpText.setPosition(sf::Vector2f(380, 500));
+		helpText.setString(L"		  ARKANOID - GRA ZALICZENIOWA\n\n						MENU POMOCY\n\n						 Pauza - Esc\n\n					   Opuœæ grê - X\n\nPostêp zapsiuje siê w pliku wyniki.txt");
 
 		gameOverText.setFont(font);
 		gameOverText.setCharacterSize(60);
@@ -139,7 +141,7 @@ public:
 		gameStartText.setOutlineColor(sf::Color::Black);
 		gameStartText.setOutlineThickness(10);
 		gameStartText.setPosition(sf::Vector2f(430, 500));
-		gameStartText.setString(L"						ARKANOID\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê\n\n				F1 - Menu pomocy");
+		gameStartText.setString(L"						ARKANOID\n\n\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê\n\n				F1 - Menu pomocy");
 
 		for (int i = 0; i < 24; i++)
 		{
@@ -156,9 +158,16 @@ public:
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X))
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X)
 			{
+				std::ofstream file;
+				file.open("wyniki.txt", std::ios_base::app | std::ios_base::out);
+				time_t t = time(nullptr);
+				tm* timePtr = localtime(&t);
+				file << asctime(timePtr) << " WYNIK: " << score << std::endl<< std::endl;
+				file.close();
 				window.close();
+				
 			}
 
 			if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::N)
@@ -234,11 +243,9 @@ public:
 		sf::RectangleShape background;
 		background.setSize(sf::Vector2f(1600.f, 1600.f));
 		sf::Texture MainTexture;
-		MainTexture.loadFromFile("ja.jpg");
+		MainTexture.loadFromFile("tlo.jpg");
 		background.setTexture(&MainTexture);
 		window.draw(background);
-
-		//window.clear(sf::Color::Black);
 
 		if (helpMenu)
 			window.draw(helpText);
