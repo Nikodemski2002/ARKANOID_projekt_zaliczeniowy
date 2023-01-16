@@ -4,7 +4,7 @@
 class Paddle
 {
 public:
-	const float SPEED = 10.f;
+	const float SPEED = 12.f;
 	sf::Texture texture;
 	sf::Sprite sprite;
 
@@ -12,7 +12,7 @@ public:
 	{
 		texture.loadFromFile("paddle2.png");
 		sprite.setTexture(texture);
-		sprite.setPosition(sf::Vector2f(400, 700));
+		sprite.setPosition(sf::Vector2f(800, 1400));
 		sprite.setOrigin(sf::Vector2f(texture.getSize().x / 2, texture.getSize().y / 2));
 		sprite.setScale(sf::Vector2f(0.7, 0.7));
 	}
@@ -31,7 +31,7 @@ public:
 class Ball
 {
 public:
-	const float SPEED = 5.f;
+	const float SPEED = 7.f;
 	sf::Texture texture;
 	sf::Sprite sprite;
 	sf::Vector2f velocity;
@@ -40,7 +40,7 @@ public:
 	{
 		texture.loadFromFile("ball.png");
 		sprite.setTexture(texture);
-		sprite.setPosition(sf::Vector2f(400, 800));
+		sprite.setPosition(sf::Vector2f(600, 1000));
 		sprite.setOrigin(sf::Vector2f(texture.getSize().x / 2, texture.getSize().y / 2));
 		sprite.setScale(sf::Vector2f(0.7, 0.7));
 		velocity = sf::Vector2f(SPEED, -SPEED);
@@ -71,8 +71,8 @@ public:
 class Game
 {
 public:
-	int windoWidth = 800;
-	int windowHeight = 800;
+	int windoWidth = 1600;
+	int windowHeight = 1600;
 	bool paused = false;
 	bool gameOver = false;
 	bool gameStarted = false;
@@ -103,39 +103,49 @@ public:
 		font.loadFromFile("fonts/Bangers-Regular.ttf");
 
 		pauseText.setFont(font);
-		pauseText.setCharacterSize(30);
+		pauseText.setCharacterSize(60);
 		pauseText.setFillColor(sf::Color::White);
-		pauseText.setPosition(sf::Vector2f(250, 250));
+		pauseText.setOutlineColor(sf::Color::Black);
+		pauseText.setOutlineThickness(10);
+		pauseText.setPosition(sf::Vector2f(500, 500));
 		pauseText.setString(L"Gra wstrzymana\nNaciœnij Esc aby wznowiæ rozgrywkê");
 
 		helpText.setFont(font);
-		helpText.setCharacterSize(30);
+		helpText.setCharacterSize(60);
 		helpText.setFillColor(sf::Color::White);
-		helpText.setPosition(sf::Vector2f(250, 250));
+		helpText.setOutlineColor(sf::Color::Black);
+		helpText.setOutlineThickness(10);
+		helpText.setPosition(sf::Vector2f(500, 500));
 		helpText.setString(L"ARKANOID - GRA ZALICZENIOWA\n\n			  MENU POMOCY\n\n			  Pauza - Esc\n\n		    Opuœæ grê - X");
 
 		gameOverText.setFont(font);
-		gameOverText.setCharacterSize(30);
+		gameOverText.setCharacterSize(60);
 		gameOverText.setFillColor(sf::Color::White);
-		gameOverText.setPosition(sf::Vector2f(200, 250));
-		gameOverText.setString(L"						  KONIEC GRY\n\n	Naciœnij N aby rozpocz¹æ now¹ grê\n\n			Naciœnij X aby opuœciæ grê");
+		gameOverText.setOutlineColor(sf::Color::Black);
+		gameOverText.setOutlineThickness(10);
+		gameOverText.setPosition(sf::Vector2f(400, 500));
+		gameOverText.setString(L"						  KONIEC GRY\n\n			Naciœnij X aby opuœciæ grê");
 
 		scoreText.setFont(font);
-		scoreText.setCharacterSize(30);
+		scoreText.setCharacterSize(60);
 		scoreText.setFillColor(sf::Color::White);
+		scoreText.setOutlineColor(sf::Color::Black);
+		scoreText.setOutlineThickness(10);
 		scoreText.setPosition(sf::Vector2f(10, 10));
 
 		gameStartText.setFont(font);
-		gameStartText.setCharacterSize(30);
+		gameStartText.setCharacterSize(60);
 		gameStartText.setFillColor(sf::Color::White);
-		gameStartText.setPosition(sf::Vector2f(215, 250));
+		gameStartText.setOutlineColor(sf::Color::Black);
+		gameStartText.setOutlineThickness(10);
+		gameStartText.setPosition(sf::Vector2f(430, 500));
 		gameStartText.setString(L"						ARKANOID\n\n\nNaciœnij N aby rozpocz¹æ now¹ grê\n\n		Naciœnij X aby opuœciæ grê\n\n				F1 - Menu pomocy");
 
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 24; i++)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 15; j++)
 			{
-				blocks.emplace_back(Block(100 + i * 50, 100 + j * 50));
+				blocks.emplace_back(Block(200 + i * 50, 200 + j * 50));
 				remainingBlocks++;
 			}
 		}
@@ -221,7 +231,14 @@ public:
 
 	void render()
 	{
-		window.clear(sf::Color::Black);
+		sf::RectangleShape background;
+		background.setSize(sf::Vector2f(1600.f, 1600.f));
+		sf::Texture MainTexture;
+		MainTexture.loadFromFile("ja.jpg");
+		background.setTexture(&MainTexture);
+		window.draw(background);
+
+		//window.clear(sf::Color::Black);
 
 		if (helpMenu)
 			window.draw(helpText);
