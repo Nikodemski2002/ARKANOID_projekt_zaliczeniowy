@@ -164,7 +164,12 @@ public:
 				file.open("wyniki.txt", std::ios_base::app | std::ios_base::out);
 				time_t t = time(nullptr);
 				tm* timePtr = localtime(&t);
-				file << asctime(timePtr) << " WYNIK: " << score << std::endl<< std::endl;
+				if (score == 0) {
+					file << asctime(timePtr) << "Nie rozpoczêto rozgrywki" << std::endl << std::endl;
+				}
+				else {
+					file << asctime(timePtr) << " WYNIK: " << score << std::endl << std::endl;
+				}
 				file.close();
 				window.close();
 				
